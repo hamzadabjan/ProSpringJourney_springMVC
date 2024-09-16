@@ -1,6 +1,7 @@
 package com.hamza.springboot.training.thymeleafdemo.model;
 
 
+import com.hamza.springboot.training.thymeleafdemo.validate.CourseCode;
 import jakarta.validation.constraints.*;
 
 
@@ -24,6 +25,19 @@ public class Student {
     @Max(value = 40, message = "must be younger than 40Y")
     @NotNull(message = "Required")
     private Integer age;
+
+
+    @CourseCode(value = "asd" , message = "must start with 'asd' ")
+    private String courseCode;
+
+    public String getCourseCode() {
+        return courseCode;
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
 
 
     @NotNull(message = "Required")

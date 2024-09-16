@@ -22,6 +22,7 @@
           class="error" ></span>
     <br> <br>
 
+    Student age:
     <input type="text" th:field="*{age}" placeholder="Student Age" />
     <span th:if="${#fields.hasErrors('age')}"
           th:errors="*{age}"
@@ -37,7 +38,7 @@
 
     <br> <br>
 
-    <input type="text" th:field="*{postalCode}" placeholder="Postal Code" />
+    Postal Code: <input type="text" th:field="*{postalCode}" placeholder="Postal Code" />
     <span th:if="${#fields.hasErrors('postalCode')}"
           th:errors="*{postalCode}"
           class="error" ></span>
@@ -53,6 +54,11 @@
 
     <br> <br>
 
+    Course Code: <input type="text" th:field="*{courseCode}" placeholder="Course Code" />
+    <span th:if="${#fields.hasErrors('courseCode')}"
+          th:errors="*{courseCode}"
+          class="error" ></span>
+    <br> <br>
 
 
     <input type="submit" value="Submit"/>
