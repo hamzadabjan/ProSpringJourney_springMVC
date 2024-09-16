@@ -1,11 +1,16 @@
 package com.hamza.springboot.training.thymeleafdemo.model;
 
 
+import jakarta.validation.constraints.*;
+
 
 public class Student {
 
     private String firstName;
 
+
+    @NotNull(message = "Required")
+    @Size (min = 1,message = "Required")
     private String lastName;
 
     private String country;
@@ -13,6 +18,18 @@ public class Student {
     private String favoriteLanguage;
 
     private String operatingsystems;
+
+
+    @Min(value = 18 , message = "must be greater than 18Y")
+    @Max(value = 40, message = "must be younger than 40Y")
+    @NotNull(message = "Required")
+    private Integer age;
+
+
+    @NotNull(message = "Required")
+    @Size (min = 1,message = "Required")
+    @Pattern(regexp = "^[a-zA-Z0-9]{5}", message = "Must be 5 characters")
+    private String postalCode;
 
     public Student() {
     }
@@ -55,5 +72,21 @@ public class Student {
 
     public void setOperatingsystems(String operatingsystems) {
         this.operatingsystems = operatingsystems;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 }

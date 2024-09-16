@@ -2,13 +2,15 @@ package com.hamza.springboot.training.thymeleafdemo.controller;
 
 
 import com.hamza.springboot.training.thymeleafdemo.model.Student;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.DataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,22 +26,37 @@ public class StudentController {
     @Value("${operatingsystems}")
     private List<String> operatingsystems;
 
+
+    @InitBinder
+    public void initBinder (WebDataBinder dataBinder){
+
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
+
+    }
+
     @GetMapping("/showStudentForm")
-    public String showStudentForm(Model themodel){
+    public String showStudentForm(Model theModel){
 
         Student theStudent =new Student();
-        themodel.addAttribute("student",theStudent);
-        themodel.addAttribute("countries",countries);
-        themodel.addAttribute("languages",languages);
-        themodel.addAttribute("operatingsystems",operatingsystems);
+        theModel.addAttribute("student",theStudent);
+        theModel.addAttribute("countries",countries);
+        theModel.addAttribute("languages",languages);
+        theModel.addAttribute("operatingsystems",operatingsystems);
 
         return "student-form";
     }
 
     @PostMapping("/processStudentForm")
-    public String processStudentForm (@ModelAttribute("student") Student theStudent){
-        System.out.printf("The Student Name is "+theStudent.getFirstName()+" "+theStudent.getLastName());
-
-        return "confirmation-page";
+    public String processStudentForm (@Valid @ModelAttribute("student") Student theStudent, BindingResult theBindingResult, Model theModel){
+        if (theBindingResult.hasErrors()) {
+            theModel.addAttribute("countries",countries);
+            theModel.addAttribute("languages",languages);
+            theModel.addAttribute("operatingsystems",operatingsystems);
+            return "student-form";
+        }
+        else {
+            return "confirmation-page";
+        }
     }
 }
